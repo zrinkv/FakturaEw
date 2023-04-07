@@ -1,0 +1,39 @@
+﻿@model FakturaMVC.Models.Stavka
+
+@{
+    ViewBag.Title = "Brisanje stavke";
+}
+
+<h2>Brisanje stavke</h2>
+
+<h3>Dali ste sigurni da želite izbrisati stvaku?</h3>
+<div>   
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Naziv)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Naziv)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cijena)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cijena)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Briši stavku" class="btn btn-danger" /> |
+            @Html.ActionLink("Nazad na pregled stavki", "Index")
+        </div>
+    }
+</div>

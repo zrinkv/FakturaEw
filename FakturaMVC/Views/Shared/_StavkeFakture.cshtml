@@ -1,0 +1,25 @@
+﻿@model FakturaMVC.Models.FakturaStavka
+
+<tr class="parametarTR table table-striped", id="stavkaId" + @Model.StavkaId>
+
+    @Html.HiddenFor(model => model.StavkaId)
+    @Html.HiddenFor(model => model.FakturaId)
+    <td>
+        @Html.DisplayFor(model => model.Opis)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.Kolicina)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.Cijena)
+    </td>
+    <td class="UkupnaCijenaBezPorezaId">
+        @Html.DisplayFor(model => model.UkupnaCijenaBezPoreza)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.Porez)%
+    </td>
+    <td>
+        <button type="button" class="btn btn-primary deleteRow" data-id="@Model.StavkaId">Briši stavku</button>
+    </td>
+</tr>

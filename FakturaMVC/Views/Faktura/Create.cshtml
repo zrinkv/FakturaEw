@@ -1,0 +1,319 @@
+﻿@model FakturaMVC.Models.Faktura
+
+@{
+    ViewBag.Title = "Unos nove fakture";
+}
+
+<h2>Unos nove fakture</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Faktura @Model.BrojFakture</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BrojFakture, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.BrojFakture, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.BrojFakture, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DatumStvaranja, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.DatumStvaranja, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.DatumStvaranja, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DatumDospijeca, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.DatumDospijeca, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DatumDospijeca, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UkupnaCijenaBezPoreza, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.UkupnaCijenaBezPoreza, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.UkupnaCijenaBezPoreza, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UkupnaCijenaSPorezom, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.UkupnaCijenaSPorezom, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.UkupnaCijenaSPorezom, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StvarateljRacuna, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.StvarateljRacuna, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.StvarateljRacuna, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NazivPrimateljaRacuna, htmlAttributes: new { @class = "control-label col-md-12" })
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.NazivPrimateljaRacuna, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NazivPrimateljaRacuna, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <hr />
+        <h5>Stavke fakture:</h5>
+
+        <div id="parametri" class="tab-pane">
+            <div class="row">
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.Label("Stavka", htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownList("ddlStavke", Model.StavkeSelectList, htmlAttributes: new { @class = "form-control", required = "required", onchange = "return get_cijena(this)" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.Label("Cijena", htmlAttributes: new { @class = "control-label" })
+                            @Html.Editor("txtCijenaStavkeID", new { htmlAttributes = new { @class = "form-control", Value = "0" } })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.Label("Količina", htmlAttributes: new { @class = "control-label" })
+                            @Html.Editor("txtKolicinaID", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @step = "1", Value = "1" } })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.Label("Akcija", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-primary" onclick="DodajStavku()">Dodaj stavku</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Opis
+                                    </th>
+                                    <th>
+                                        Količina
+                                    </th>
+                                    <th>
+                                        Cijena
+                                    </th>
+                                    <th>
+                                        Ukupna cijena bez poreza
+                                    </th>
+
+                                    <th>
+                                        Porez
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="table_stavkaID">
+                                @if (@Model.StavkeList != null)
+                                {
+                                    for (int i = 0; i < @Model.StavkeList.Count(); i++)
+                                    {
+                                        @Html.Partial("~/Views/Shared/_StavkeFakture.cshtml", @Model.StavkeList[i])
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Spremi novu fakturu" class="btn btn-success" />
+            </div>
+        </div>
+    </div>    
+}
+
+<br />
+<div>
+    @Html.ActionLink("Nazad na pregled faktura", "Index")
+</div>
+
+<div id="porezModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Odabir porezne stope</h5>                
+            </div>
+            <div class="modal-body">
+                <p>Molimo odaberite državu po kojoj će se obračunavati porez.</p>
+                
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.Label("Država:", htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownList("PorezDrzaveId", new SelectList(ViewBag.PoreziDrzave))
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">               
+                <button type="button" id="btnModalSpremi" class="btn btn-primary">Spremi odabir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        var PoreznaStopa = 1;
+        var DrzavaPoreza = '';
+        $(document).ready(function () {
+            get_cijena();
+            
+            $("#porezModal").modal({
+                backdrop: 'static',
+                keyboard: false
+            }).modal('show');
+
+            $("#btnModalSpremi").click(function () {
+                DrzavaPoreza = document.getElementById("PorezDrzaveId").value;
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Faktura/GetPoreznuStopuByDrzava",
+                    data: "drzava=" + DrzavaPoreza,
+                    success: function (data) {
+                        PoreznaStopa = parseFloat(data);
+                    }
+                });
+                
+                $("#porezModal").modal('hide');               
+            });
+
+        });
+
+        function DodajStavku() {
+            var StavkaId = document.getElementById("ddlStavke").value;
+            var CijenaStavke = document.getElementById("txtCijenaStavkeID").value;
+            var Kolicina = document.getElementById("txtKolicinaID").value;            
+
+            $.ajax({
+                async: false,
+                cache: false,
+                data: { id: StavkaId, cijena: CijenaStavke, kolicina: Kolicina, poreznaStopa: PoreznaStopa },
+                url: '/Stavka/CreateNewStavku',
+                success: (function (partialView) {
+                    if (partialView == "") {
+                        alert("Navedena stavka je već dodana. Pobrišite postojeću i dodajte nanovo.");
+                    }
+                    else {
+                        $('#table_stavkaID').append(partialView);
+                        
+                        var elements = document.getElementsByClassName("UkupnaCijenaBezPorezaId");                       
+                        var suma = 0;
+                        for (var i = 0; i < elements.length; i++) {                            
+                            suma += parseFloat(elements[i].innerText.replace(',', '.'));
+                        }
+                        document.getElementById("UkupnaCijenaBezPoreza").value = suma.toFixed(2).toString().replace('.', ',');
+                        document.getElementById("UkupnaCijenaSPorezom").value = (suma * PoreznaStopa).toFixed(2).toString().replace('.', ',');                       
+                    }
+                })
+            });
+        }
+
+        $("#table_stavkaID").on("click", ".deleteRow", function () {            
+            var StvakaID = $(this).data('id');
+            $.ajax({
+                async: false,
+                cache: false,
+                data: { id: StvakaID },
+                url: '/Stavka/DeleteStavku',
+                success: (function (partialView) {
+                    $(this).closest(".parametarTR").remove();
+                })
+            });
+            $(this).closest(".parametarTR").remove();
+
+            var elements = document.getElementsByClassName("UkupnaCijenaBezPorezaId");
+            var suma = 0;
+            for (var i = 0; i < elements.length; i++) {
+                suma += parseFloat(elements[i].innerText.replace(',', '.'));
+            }
+            document.getElementById("UkupnaCijenaBezPoreza").value = suma.toFixed(2).toString().replace('.', ',');
+            document.getElementById("UkupnaCijenaSPorezom").value = (suma * PoreznaStopa).toFixed(2).toString().replace('.', ',');
+
+            return;
+        });
+
+        function get_cijena() {
+            var selected_val = $('#ddlStavke').find(":selected").attr('value');
+            $.ajax({
+                type: "POST",
+                url: "/Stavka/GetStavkuById",
+                data: "id=" + selected_val,
+                success: function (data) {
+                    if (data.Cijena > 0) {
+                        $('#txtCijenaStavkeID').val(data.Cijena.toString().replace('.', ','));
+                    }
+                    else {
+                        $('#txtCijenaStavkeID').val('0');
+                    }
+                }
+            });
+        }
+    </script>
+}

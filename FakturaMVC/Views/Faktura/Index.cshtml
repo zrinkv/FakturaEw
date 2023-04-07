@@ -1,0 +1,74 @@
+﻿@model IEnumerable<FakturaMVC.Models.Faktura>
+
+@{
+    ViewBag.Title = "Pregled faktura";
+}
+
+<h2>Pregled faktura</h2>
+
+<p>
+    @Html.ActionLink("Unos nove fakture", "Create", null, htmlAttributes: new { @class = "btn btn-success" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BrojFakture)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DatumStvaranja)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DatumDospijeca)
+        </th>
+        <th>
+            @Html.DisplayName("Broj stavki")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UkupnaCijenaBezPoreza)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UkupnaCijenaSPorezom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StvarateljRacuna)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NazivPrimateljaRacuna)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BrojFakture)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DatumStvaranja)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DatumDospijeca)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StavkeList.Count)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UkupnaCijenaBezPoreza)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UkupnaCijenaSPorezom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StvarateljRacuna)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NazivPrimateljaRacuna)
+        </td>
+        <td>           
+            @Html.ActionLink("Detalji", "Details", new { id = item.FakturaId }) |
+            @Html.ActionLink("Storniraj", "Delete", new { id = item.FakturaId })
+        </td>
+    </tr>
+}
+
+</table>

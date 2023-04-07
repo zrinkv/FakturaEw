@@ -1,0 +1,38 @@
+﻿@model IEnumerable<FakturaMVC.Models.Stavka>
+
+@{
+    ViewBag.Title = "Pregled stavki";
+}
+
+<h2>Pregled stavki</h2>
+
+<p>
+    @Html.ActionLink("Unos nove stavke", "Create", null, htmlAttributes: new { @class = "btn btn-success" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Naziv)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cijena)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Naziv)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cijena)
+        </td>
+        <td>
+            @Html.ActionLink("Izmijeni", "Edit", new { id=item.StavkaId }) |            
+            @Html.ActionLink("Izbriši", "Delete", new { id=item.StavkaId })
+        </td>
+    </tr>
+}
+
+</table>
